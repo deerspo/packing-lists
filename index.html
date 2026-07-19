@@ -1,1 +1,508 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Pakkauslistat</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f4f6f8;
+      color: #1f2933;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page {
+      width: min(100% - 24px, 720px);
+      margin: 0 auto;
+      padding: 32px 0 60px;
+    }
+
+    .page-header {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    .page-header p {
+      margin: 0;
+      color: #667085;
+      line-height: 1.5;
+    }
+
+    .lists {
+      display: grid;
+      gap: 14px;
+    }
+
+    .list-card {
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid #dfe3e8;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(31, 41, 51, 0.08);
+    }
+
+    .list-header {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 12px;
+      padding: 18px;
+      border: 0;
+      background: #ffffff;
+      color: #1f2933;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .list-header:active {
+      background: #f7f9fa;
+    }
+
+    .list-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .list-count {
+      color: #667085;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .list-arrow {
+      font-size: 1.1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .list-card.open .list-arrow {
+      transform: rotate(180deg);
+    }
+
+    .list-content {
+      display: none;
+      padding: 0 18px 18px;
+      border-top: 1px solid #edf0f2;
+    }
+
+    .list-card.open .list-content {
+      display: block;
+    }
+
+    .progress-text {
+      margin: 16px 0 12px;
+      color: #667085;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .items {
+      display: grid;
+      gap: 10px;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 48px 1fr 48px;
+      align-items: stretch;
+      min-height: 52px;
+      overflow: hidden;
+      border: 1px solid #dfe3e8;
+      border-radius: 12px;
+      background: #ffffff;
+    }
+
+    .item.packed {
+      background: #ecfdf3;
+      border-color: #a6e3bd;
+    }
+
+    .item.skipped {
+      background: #f2f4f7;
+      opacity: 0.7;
+    }
+
+    .item-name {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      font-weight: 600;
+    }
+
+    .item.packed .item-name::before {
+      content: "✓";
+      margin-right: 8px;
+      color: #157347;
+      font-weight: 900;
+    }
+
+    .item.skipped .item-name {
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+    }
+
+    .item-button {
+      border: 0;
+      color: #1f2933;
+      font-size: 1.2rem;
+      font-weight: 900;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .pack-button {
+      background: #d1fadf;
+      border-right: 1px solid #dfe3e8;
+    }
+
+    .skip-button {
+      background: #eaecf0;
+      border-left: 1px solid #dfe3e8;
+    }
+
+    .item-button:active {
+      transform: scale(0.95);
+    }
+
+    .reset-button {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 16px;
+      border: 1px solid #d0d5dd;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #344054;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .reset-button:active {
+      background: #f2f4f7;
+    }
+
+    @media (min-width: 700px) {
+      .list-header {
+        padding: 20px;
+      }
+
+      .list-content {
+        padding: 0 20px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <header class="page-header">
+      <h1>Pakkauslistat</h1>
+      <p>
+        Valitse lista, merkitse pakatut tavarat ja yliviivaa ne,
+        joita et tarvitse tällä kertaa.
+      </p>
+    </header>
+
+    <section id="lists" class="lists"></section>
+
+  </main>
+
+  <script>
+    const storageKey = "packingListStatus";
+
+    const packingLists = [
+      {
+        id: "trip",
+        title: "Reissuun mukaan",
+        items: [
+          "Passi",
+          "Ajokortti",
+          "Lompakko",
+          "Puhelin",
+          "Puhelimen laturi",
+          "Vaatteet",
+          "Hygieniatarvikkeet"
+        ]
+      },
+      {
+        id: "plane",
+        title: "Lentokoneeseen",
+        items: [
+          "Passi",
+          "Lentoliput",
+          "Kuulokkeet",
+          "Niskatyyny",
+          "Tyhjä vesipullo",
+          "Välipala",
+          "Varavirtalähde"
+        ]
+      },
+      {
+        id: "walmart",
+        title: "Walmartista",
+        items: [
+          "Vettä",
+          "Välipaloja",
+          "Aurinkorasva",
+          "Kylmälaukku",
+          "Jäitä",
+          "Paperipyyhkeitä",
+          "Roskapusseja"
+        ]
+      },
+      {
+        id: "day-hike",
+        title: "Päivävaellus",
+        items: [
+          "Päiväreppu",
+          "Vettä",
+          "Kartta",
+          "Välipala",
+          "Aurinkosuoja",
+          "Ensiapupakkaus",
+          "Sadevaatteet"
+        ]
+      },
+      {
+        id: "overnight-hike",
+        title: "Yövaellus",
+        items: [
+          "Teltta",
+          "Makuupussi",
+          "Makuualusta",
+          "Retkikeitin",
+          "Ruoka",
+          "Otsalamppu",
+          "Vedenpuhdistus",
+          "Ensiapupakkaus"
+        ]
+      }
+    ];
+
+    let savedState = loadState();
+    let openListId = null;
+
+    function loadState() {
+      const storedData = localStorage.getItem(storageKey);
+
+      if (!storedData) {
+        return {};
+      }
+
+      try {
+        return JSON.parse(storedData);
+      } catch (error) {
+        console.error("Tallennettuja tietoja ei voitu lukea.", error);
+        return {};
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(savedState));
+    }
+
+    function getItemStatus(listId, itemIndex) {
+      return savedState[listId]?.[itemIndex] || "normal";
+    }
+
+    function setItemStatus(listId, itemIndex, newStatus) {
+      if (!savedState[listId]) {
+        savedState[listId] = {};
+      }
+
+      if (newStatus === "normal") {
+        delete savedState[listId][itemIndex];
+      } else {
+        savedState[listId][itemIndex] = newStatus;
+      }
+
+      saveState();
+      renderLists();
+    }
+
+    function toggleItemStatus(listId, itemIndex, selectedStatus) {
+      const currentStatus = getItemStatus(listId, itemIndex);
+
+      const newStatus =
+        currentStatus === selectedStatus
+          ? "normal"
+          : selectedStatus;
+
+      setItemStatus(listId, itemIndex, newStatus);
+    }
+
+    function toggleList(listId) {
+      openListId = openListId === listId ? null : listId;
+      renderLists();
+    }
+
+    function resetList(listId, listTitle) {
+      const confirmed = window.confirm(
+        `Haluatko varmasti nollata listan "${listTitle}"?`
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      delete savedState[listId];
+      saveState();
+      renderLists();
+    }
+
+    function createItem(listId, itemName, itemIndex) {
+      const status = getItemStatus(listId, itemIndex);
+
+      const item = document.createElement("div");
+      item.className = `item ${status}`;
+
+      const packButton = document.createElement("button");
+      packButton.type = "button";
+      packButton.className = "item-button pack-button";
+      packButton.textContent = "✓";
+      packButton.setAttribute(
+        "aria-label",
+        `Merkitse ${itemName} pakatuksi`
+      );
+
+      packButton.addEventListener("click", () => {
+        toggleItemStatus(listId, itemIndex, "packed");
+      });
+
+      const itemNameElement = document.createElement("span");
+      itemNameElement.className = "item-name";
+      itemNameElement.textContent = itemName;
+
+      const skipButton = document.createElement("button");
+      skipButton.type = "button";
+      skipButton.className = "item-button skip-button";
+      skipButton.textContent = "—";
+      skipButton.setAttribute(
+        "aria-label",
+        `Merkitse ettei tavaraa ${itemName} tarvita`
+      );
+
+      skipButton.addEventListener("click", () => {
+        toggleItemStatus(listId, itemIndex, "skipped");
+      });
+
+      item.append(
+        packButton,
+        itemNameElement,
+        skipButton
+      );
+
+      return item;
+    }
+
+    function createListCard(list) {
+      const card = document.createElement("article");
+      card.className = "list-card";
+
+      if (openListId === list.id) {
+        card.classList.add("open");
+      }
+
+      const handledCount = list.items.filter((item, index) => {
+        return getItemStatus(list.id, index) !== "normal";
+      }).length;
+
+      const packedCount = list.items.filter((item, index) => {
+        return getItemStatus(list.id, index) === "packed";
+      }).length;
+
+      const headerButton = document.createElement("button");
+      headerButton.type = "button";
+      headerButton.className = "list-header";
+
+      headerButton.setAttribute(
+        "aria-expanded",
+        openListId === list.id
+      );
+
+      headerButton.addEventListener("click", () => {
+        toggleList(list.id);
+      });
+
+      const title = document.createElement("span");
+      title.className = "list-title";
+      title.textContent = list.title;
+
+      const count = document.createElement("span");
+      count.className = "list-count";
+      count.textContent =
+        `${handledCount}/${list.items.length}`;
+
+      const arrow = document.createElement("span");
+      arrow.className = "list-arrow";
+      arrow.textContent = "⌄";
+
+      headerButton.append(title, count, arrow);
+
+      const content = document.createElement("div");
+      content.className = "list-content";
+
+      const progressText = document.createElement("p");
+      progressText.className = "progress-text";
+      progressText.textContent =
+        `Pakattu ${packedCount} · Käsitelty ${handledCount} / ${list.items.length}`;
+
+      const itemsContainer = document.createElement("div");
+      itemsContainer.className = "items";
+
+      list.items.forEach((itemName, itemIndex) => {
+        itemsContainer.appendChild(
+          createItem(list.id, itemName, itemIndex)
+        );
+      });
+
+      const resetButton = document.createElement("button");
+      resetButton.type = "button";
+      resetButton.className = "reset-button";
+      resetButton.textContent = "Nollaa tämä lista";
+
+      resetButton.addEventListener("click", () => {
+        resetList(list.id, list.title);
+      });
+
+      content.append(
+        progressText,
+        itemsContainer,
+        resetButton
+      );
+
+      card.append(headerButton, content);
+
+      return card;
+    }
+
+    function renderLists() {
+      const listsContainer = document.getElementById("lists");
+      listsContainer.innerHTML = "";
+
+      packingLists.forEach(list => {
+        listsContainer.appendChild(
+          createListCard(list)
+        );
+      });
+    }
+
+    renderLists();
+  </script>
+</body>
+</html>
