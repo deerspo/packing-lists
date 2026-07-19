@@ -83,10 +83,22 @@
       background: #f7f9fa;
     }
 
-    .list-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
+    .list-title{
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    font-size:1.05rem;
+    font-weight:700;
+}
+    .list-icon{
+    width:46px;
+    height:46px;
+
+    object-fit:contain;
+
+    flex-shrink:0;
+}
 
     .list-count {
       color: #667085;
@@ -129,7 +141,7 @@
       display: grid;
       grid-template-columns: 48px 1fr 48px;
       align-items: stretch;
-      min-height: 52px;
+      min-height: 60px;
       overflow: hidden;
       border: 1px solid #dfe3e8;
       border-radius: 12px;
@@ -146,12 +158,17 @@
       opacity: 0.7;
     }
 
-    .item-name {
-      display: flex;
-      align-items: center;
-      padding: 10px 12px;
-      font-weight: 600;
-    }
+    .item-name{
+
+    display:flex;
+    align-items:center;
+
+    padding-left:18px;
+
+    font-size:20px;
+
+    font-weight:500;
+}
 
     .item.packed .item-name::before {
       content: "✓";
@@ -165,23 +182,49 @@
       text-decoration-thickness: 2px;
     }
 
-    .item-button {
-      border: 0;
-      color: #1f2933;
-      font-size: 1.2rem;
-      font-weight: 900;
-      cursor: pointer;
-      touch-action: manipulation;
+    .item-button{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.18s;
+
+    font-weight:bold;
+    }
+    .item-button:hover{
+    transform:scale(1.06);
+}
+
+.item-button:active{
+    transform:scale(.93);
+}
+
+    .list-icon{
+    width:46px;
+    height:46px;
+
+    object-fit:contain;
+
+    flex-shrink:0;
     }
 
-    .pack-button {
-      background: #d1fadf;
-      border-right: 1px solid #dfe3e8;
-    }
+    .skip-button{
+    background:#ECEAE5;
+    color:#444;
 
-    .skip-button {
-      background: #eaecf0;
-      border-left: 1px solid #dfe3e8;
+    border:none;
+
+    width:40px;
+    height:40px;
+
+    margin:6px;
+
+    border-radius:12px;
+
+    font-size:24px;
     }
 
     .item-button:active {
@@ -263,8 +306,8 @@
         ]
       },
       {
-        id: "WALMARTISTA",
-        title: "Walmartista",
+        id: "walmart",
+        title: "WALMARTISTA",
         items: [
           "Vettä",
           "Välipaloja",
@@ -449,9 +492,27 @@
         toggleList(list.id);
       });
 
-      const title = document.createElement("span");
-      title.className = "list-title";
-      title.textContent = list.title;
+      const title = document.createElement("div");
+title.className = "list-title";
+
+const icon = document.createElement("img");
+icon.className = "list-icon";
+
+const iconMap = {
+    "trip": "backpack.png",
+    "plane": "plane.png",
+    "WALMARTISTA": "shopping.png",
+    "day-hike": "shoe.png",
+    "overnight-hike": "tent.png"
+};
+
+icon.src = iconMap[list.id];
+icon.alt = list.title;
+
+const text = document.createElement("span");
+text.textContent = list.title;
+
+title.append(icon, text);
 
       const count = document.createElement("span");
       count.className = "list-count";
