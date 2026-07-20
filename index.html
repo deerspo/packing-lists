@@ -185,17 +185,31 @@
     }
 
     .item-button{
+    width:36px;
+    height:36px;
+
+    margin:8px;
+
+    border:none;
+    border-radius:10px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
+    font-size:18px;
+    font-weight:700;
+
     cursor:pointer;
-
-    transition:.18s;
-
-    font-weight:bold;
-    }
+}
+    .pack-button{
+    background:#DCEFD9;
+    color:#5A8A5C;
+}
+    .skip-button{
+    background:#ECE8E1;
+    color:#5F5F5F;
+}
     .item-button:hover{
     transform:scale(1.06);
 }
@@ -213,7 +227,8 @@
     flex-shrink:0;
     }
 
-    .skip-button{
+    .pack-button,
+.skip-button{
     width:36px;
     height:36px;
 
@@ -232,7 +247,7 @@
     cursor:pointer;
 
     transition:.15s;
-    }
+}
 
     .item-button:active {
       transform: scale(0.95);
