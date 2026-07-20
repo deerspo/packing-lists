@@ -14,22 +14,24 @@
    body {
     margin: 0;
     min-height: 100vh;
+    background: #ffffff;
+    color: #1f2933;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+    .page {
+    width: min(100%, 720px);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 32px 16px 60px;
 
     background-image: url("Taustakuva.png");
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     background-repeat: no-repeat;
-    background-attachment: fixed;
 
-    color: #1f2933;
-    font-family: Arial, Helvetica, sans-serif;
-   }
-
-    .page {
-      width: min(100% - 24px, 720px);
-      margin: 0 auto;
-      padding: 32px 0 60px;
-    }
+    box-shadow: 0 0 28px rgba(0, 0, 0, 0.18);
+}
 
     .page-header {
       margin-bottom: 28px;
