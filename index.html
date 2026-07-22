@@ -301,14 +301,15 @@
     const packingLists = [
       {
         id: "trip",
-        title: "REISSUUN MUKAAN",
+        title: "Reissuun mukaan",
         items: [
           "Passi",
           "Ajokortti",
           "Lompakko",
           "Puhelin",
-          "Puhelimen, kellon, koneen, hammasharjan laturit",
-          "Vaatteet ja uimavaatteet",
+          "Laturit",
+          "Vaatteet, alusvaatteet ja uimashortsit",
+          "Släbärit",
           "Hygieniatarvikkeet ja hammasharja",
           "Kamera",
           "Starlink",
@@ -322,13 +323,13 @@
           "ESIM",
           "ESIM",
           "ESIM",
-          "ESIM",
+          "Reppu",
           "Ylimääräiset ruumalaukut"
         ]
       },
       {
         id: "walmart",
-        title: "WALMARTISTA",
+        title: "Walmart",
         items: [
           "Vettä",
           "Gatorade",
@@ -341,9 +342,9 @@
       },
       {
         id: "plane",
-        title: "WALMARTISTA JOS NUKKUU AUTOSSA + MUUT",
+        title: "Walmart muut",
         items: [
-          "Tyynyt",
+          "Tyyny",
           "Patja",
           "Peitto",
           "Hammaslankaimet",
@@ -355,12 +356,12 @@
       },
       {
         id: "day-hike",
-        title: "PÄIVÄVAELLUS",
+        title: "Päivävaellus",
         items: [
-          "Reppu",
           "Juomaa",
-          "Väliapala",
+          "Ruoka ja välipala",
           "Paperia",
+          "Kosteuspyyhkeet",
           "Sauvat",
           "Otsalamppu",
           "Bear sprey"
@@ -368,13 +369,13 @@
       },
       {
         id: "overnight-hike",
-        title: "YÖVAELLUS",
+        title: "Yövaellus",
         items: [
           "Teltta",
           "Makuupussi",
           "Makuualusta",
           "Retkikeitin",
-          "Ruoka",
+          "Ruoka ja väliapalat",
           "Otsalamppu",
           "Vedenpuhdistus",
           "Ensiapupakkaus"
@@ -534,8 +535,8 @@ const icon = document.createElement("img");
 icon.className = "list-icon";
 
 const iconMap = {
-    "trip": "backpack.png",
-    "plane": "plane.png",
+    "trip": "plane.png",
+    "plane": "backpack.png",
     "walmart": "shopping.png",
     "day-hike": "shoe.png",
     "overnight-hike": "tent.png"
