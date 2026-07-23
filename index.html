@@ -140,17 +140,15 @@
     }
 
     .item {
-    display: grid;
-    grid-template-columns: 44px 1fr 44px;
-
-    align-items: center;
-
-    min-height: 52px;
-
-    border: 1px solid #dfe3e8;
-    border-radius: 12px;
-    background: #fff;
-}
+      display: grid;
+      grid-template-columns: 48px 1fr 48px;
+      align-items: stretch;
+      min-height: 60px;
+      overflow: hidden;
+      border: 1px solid #dfe3e8;
+      border-radius: 12px;
+      background: #ffffff;
+    }
 
     .item.packed {
       background: #ecfdf3;
@@ -166,7 +164,9 @@
     display:flex;
     align-items:center;
 
-    padding-left:0 10px;
+    padding-left:18px;
+    font-size:20px;
+    font-weight:500;
 }
 
     .item.packed .item-name::before {
@@ -182,24 +182,22 @@
     }
 
     .item-button{
-    width:32px;
-    height:32px;
+    width:36px;
+    height:36px;
 
-    margin:auto;
+    margin:8px;
 
     border:none;
-    border-radius:9px;
+    border-radius:10px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    font-size:16px;
+    font-size:18px;
     font-weight:700;
 
     cursor:pointer;
-
-    transition:0.15s;
 }
     .pack-button{
     background:#DCEFD9;
@@ -208,9 +206,14 @@
     .skip-button{
     background:#ECE8E1;
     color:#5F5F5F;
+    transform: translateX(-6px);
 }
     .skip-button:hover{
     transform: translateX(-6px) scale(1.05);
+}
+
+.skip-button:active{
+    transform: translateX(-6px) scale(0.95);
 }
 
     .list-icon{
