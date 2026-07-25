@@ -220,8 +220,7 @@
     width:36px;
     height:36px;
 
-    margin:8px;
-    transform: translateY(2px);
+    margin:10px;
 
     border:none;
     border-radius:10px;
@@ -234,6 +233,8 @@
     font-weight:700;
 
     cursor:pointer;
+
+    transition:.15s;
 }
     .pack-button{
     background:#DCEFD9;
@@ -244,34 +245,20 @@
     color:#5F5F5F;
     transform: translateX(-6px);
 }
-    .skip-button:hover{
+.pack-button:hover{
+    transform: scale(1.05);
+}
+
+.pack-button:active{
+    transform: scale(0.95);
+}
+
+.skip-button:hover{
     transform: translateX(-6px) scale(1.05);
 }
 
 .skip-button:active{
     transform: translateX(-6px) scale(0.95);
-}
-
-    .pack-button,
-.skip-button{
-    width:36px;
-    height:36px;
-
-    margin:10px;
-
-    border:none;
-    border-radius:10px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:18px;
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.15s;
 }
 
     .reset-button {
