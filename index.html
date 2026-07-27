@@ -164,19 +164,27 @@
       font-weight: 700;
     }
 
-    .list-arrow {
-    width: 28px;
-    height: 28px;
+    .list-arrow{
+    width:28px;
+    height:28px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-    line-height: 1;
-    font-size: 1.1rem;
+    transition:transform .25s ease;
+}
+    .list-arrow svg{
+    width:18px;
+    height:18px;
 
-    transform: translateY(-3px);
-    transition: transform 0.2s ease;
+    stroke:#55616d;
+    stroke-width:2.4;
+
+    fill:none;
+
+    stroke-linecap:round;
+    stroke-linejoin:round;
 }
 
     .list-card.open .list-arrow {
@@ -602,9 +610,13 @@ title.append(icon, text);
         `${handledCount}/${list.items.length}`;
 
       const arrow = document.createElement("span");
-      arrow.className = "list-arrow";
-      arrow.textContent = "⌄";
+arrow.className = "list-arrow";
 
+arrow.innerHTML = `
+<svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M6 9l6 6 6-6" />
+</svg>
+`;
       headerButton.append(title, count, arrow);
 
       const content = document.createElement("div");
