@@ -164,13 +164,23 @@
     }
 
     .list-arrow {
-      font-size: 1.1rem;
-      transition: transform 0.2s ease;
-    }
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    line-height: 1;
+    font-size: 1.1rem;
+
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
 
     .list-card.open .list-arrow {
-      transform: rotate(180deg);
-    }
+    transform: translateY(-2px) rotate(180deg);
+}
 
     .list-content {
       display: none;
