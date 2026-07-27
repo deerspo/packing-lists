@@ -93,9 +93,24 @@
     }
 
     .page-header h1 {
-      margin: 0 0 10px;
-      font-size: clamp(2rem, 8vw, 3rem);
-    }
+  margin: 0;
+  font-size: clamp(2rem, 8vw, 3rem);
+  line-height: 1;
+}
+    .title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.title-tree {
+  width: 32px;
+  height: 54px;
+  fill: #000000;
+  flex-shrink: 0;
+}
 
     .page-header p {
       margin: 0;
@@ -335,7 +350,53 @@
     <div class="cloud-layer" aria-hidden="true"></div>
 
     <header class="page-header">
-      <h1>PAKKAUSLISTAT</h1>
+      <div class="title-row">
+
+  <svg class="title-tree" viewBox="0 0 60 100" aria-hidden="true">
+    <path d="
+      M30 2
+      L18 28
+      L25 28
+      L12 52
+      L22 52
+      L6 80
+      L25 80
+      L25 98
+      L35 98
+      L35 80
+      L54 80
+      L38 52
+      L48 52
+      L35 28
+      L42 28
+      Z
+    "/>
+  </svg>
+
+  <h1>PAKKAUSLISTAT</h1>
+
+  <svg class="title-tree" viewBox="0 0 60 100" aria-hidden="true">
+    <path d="
+      M30 2
+      L18 28
+      L25 28
+      L12 52
+      L22 52
+      L6 80
+      L25 80
+      L25 98
+      L35 98
+      L35 80
+      L54 80
+      L38 52
+      L48 52
+      L35 28
+      L42 28
+      Z
+    "/>
+  </svg>
+
+</div>
       <p>
         Valitse lista, merkitse pakatut tavarat ja yliviivaa ne,
         joita et tarvitse tällä kertaa.
