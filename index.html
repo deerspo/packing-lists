@@ -35,21 +35,23 @@
 }
     .page::before {
     content: "";
-
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
 
-    width: 100%;
-    aspect-ratio: 2 / 3;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(42, 58, 58, 0) 70%,
+            rgba(42, 58, 58, 0.35) 85%,
+            #2a3a3a 100%
+        ),
+        url("Taustakuva.png");
 
-    background-image: url("Taustakuva.png");
-    background-size: 100% 100%;
-    background-position: center top;
+    background-size: 100% auto;
+    background-position: top center;
     background-repeat: no-repeat;
 
-    z-index: 0;
+    z-index: -2;
     pointer-events: none;
 }
     .cloud-layer {
@@ -398,7 +400,7 @@
 
 </div>
       <p>
-        Valitse lista, merkitse pakatut tavarat ja yliviivaa ne,
+        Merkitse pakatut tavarat ja yliviivaa ne,
         joita et tarvitse tällä kertaa.
       </p>
     </header>
